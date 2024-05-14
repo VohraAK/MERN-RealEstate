@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
+import userRouter from './routes/userRouter.js';
 
 const app = express();
 
@@ -22,3 +23,5 @@ const connectDB = async () => {
 };
 
 connectDB();
+
+app.use('/api', userRouter);
