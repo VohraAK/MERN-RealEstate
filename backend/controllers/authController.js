@@ -1,7 +1,8 @@
 import User from "../models/userModel.js";
 import bcryptjs from 'bcryptjs';
+import { errorHandler } from "../utils/error.js";
 
-export const signup = async (request, response) => {
+export const signup = async (request, response, next) => {
     const {username, email, password} = request.body;
     const hashedPassword = bcryptjs.hashSync(password, 10);
     try 
@@ -12,6 +13,6 @@ export const signup = async (request, response) => {
     } 
     catch (error) 
     {
-        response.status(500).json(error.message);
+       next(error);
     }
 };
