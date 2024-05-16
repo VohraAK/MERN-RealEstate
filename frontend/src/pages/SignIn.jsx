@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signinFaliure } from '../redux/user/userSlice';
 
 export default function SignIn() {
   const [formData, setFormData] = useState({}); // set initial state to an empty object
-  const [error, setError] = useState(null); // set initial state to null
-  const [loading, setLoading] = useState(false); // set initial state to false
+  const { error, loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleChange = (e) => { setFormData({ ...formData, [e.target.id] : e.target.value }) };
 
@@ -13,7 +15,7 @@ export default function SignIn() {
     e.preventDefault(); // no refresh on submit
     try
     {
-      setLoading(true); // switch to loading state
+      dispatch(signInStart()) // dispatches sign-in start action
       const response = await fetch("/api/auth/signin", 
       {
         method: 'POST',
@@ -25,14 +27,13 @@ export default function SignIn() {
 
       if (data.success == false)  // checks if success flag (from index.js) is set to false
         {
-          setError(data.message); // set error to the message returned
-          setLoading(false);
+          dispatch(signinFaliure(data.message))
           return;
         }
-      setLoading(false); setError(null); navigate('/') // navigate to homepage when signed-in
+      dispatch(signInSuccess(data)); navigate('/'); // navigate to homepage when signed-in
     }
 
-    catch (error) { setLoading(false); setError(error.message); }
+    catch (error) { dispatch(signinFaliure(error.message)) }
     console.log(formData);
   }
 
