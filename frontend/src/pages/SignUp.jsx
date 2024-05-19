@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({}); // set initial state to an empty object
@@ -49,9 +50,7 @@ export default function SignUp() {
               <button disabled={loading} className='bg-slate-600 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400'>
                 {loading ? 'Loading...' : 'Sign Up'}
               </button>
-              <button disabled={loading} className='bg-red-500 p-2 text-slate-100 rounded-md shadow-sm shadow-gray-400'>
-                {loading ? 'Loading...' : 'Continue with Google'}
-                </button>
+              <OAuth />
             </div>
           </form>
         </div>
