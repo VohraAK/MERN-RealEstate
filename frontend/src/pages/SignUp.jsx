@@ -39,7 +39,7 @@ export default function SignUp() {
 
   return (
     <div className='p-10'>
-      <div className='bg-white flex flex-col gap-5 center border border-stone-600 border-opacity-40 shadow-gray-200 shadow-md rounded-md p-5 m-6 w-9/12 md:w-6/12 mx-auto'>
+      <div className='bg-white flex flex-col gap-5 center border border-stone-600 border-opacity-40 shadow-gray-200 shadow-md rounded-md p-5 m-6 w-9/12 md:w-5/12 mx-auto'>
         <h1 className='text-2xl text-center'>Create a free account</h1>
         <div className='p-6'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center'>
@@ -47,7 +47,7 @@ export default function SignUp() {
             <input type="text" id='email' onChange={handleChange} placeholder='Email' className='border rounded-md p-3 sm:w-11/12'/>
             <input type="password" id='password' onChange={handleChange} placeholder='Password' className='border rounded-md p-3 sm:w-11/12'/>
             <div className='flex flex-col sm:w-11/12 gap-3'>
-              <button disabled={loading} className='bg-slate-600 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400'>
+              <button disabled={loading} className='bg-slate-600 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400 hover:opacity-95 disabled:opacity-80'>
                 {loading ? 'Loading...' : 'Sign Up'}
               </button>
               <OAuth />
@@ -55,7 +55,7 @@ export default function SignUp() {
           </form>
         </div>
       </div>
-          <div className='flex flex-row w-9/12 md:w-6/12 mx-auto'>
+          <div className='flex flex-row w-9/12 md:w-5/12 mx-auto'>
             <p>Have an account?</p>
             <Link to={'/sign-in'}>
               <span className='mx-2 text-blue-500'>Sign in</span>
