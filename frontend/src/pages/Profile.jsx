@@ -16,7 +16,6 @@ export default function Profile() {
   const [updateButton, setUpdateButton] = useState("Update");
   const dispatch = useDispatch();
 
-  console.log(`UPDATE STATUS: ${updateStatus}`)
 
 
   useEffect(() => { if (file) { handleFileUpload(file) } }, [file]);
@@ -70,11 +69,6 @@ export default function Profile() {
 
       // dispatch success if data.success is not false
       dispatch(updateUserSuccess(data));
-      
-      setTimeout(() => {
-        setUpdateButton("Updated ✓")
-      }, 2000);
-      
     } 
     catch (error) 
     {
