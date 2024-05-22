@@ -46,7 +46,7 @@ export const signin = async (request, response, next) => {
        const {password: pass, ...user} = validUser._doc;
 
        // save token as cookie (12 hour expiry)
-       response.cookie('access_token', token, { httpOnly: true, expires: new Date(Date.now() + 60*60*12) }).status(200).json(user);
+       response.cookie('access_token', token, { httpOnly: true }).status(200).json(user);
     } 
     catch (error) { next(error); }
 };
@@ -64,7 +64,7 @@ export const googleLogin = async (request, response, next) => {
             // create a new user session
             const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
             const { password: pass, ...user } = validUser._doc;
-            response.cookie('access_token', token, { httpOnly: true, expires: new Date(Date.now() + 60*60*12) })
+            response.cookie('access_token', token, { httpOnly: true })
                     .status(200)
                     .json(user);
         }
@@ -96,7 +96,7 @@ export const googleLogin = async (request, response, next) => {
             // create a new user session
             const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
             const { password: pass, ...user } = newUser._doc;
-            response.cookie('access_token', token, { httpOnly: true, expires: new Date(Date.now() + 60*60*12) })
+            response.cookie('access_token', token, { httpOnly: true })
                     .status(200)
                     .json(user);
 
