@@ -34,3 +34,7 @@ export const updateUser = async (request, response, next) => {
     }
 
 };
+
+export const deleteUser = async (request, responxe, next) => {
+    if (request.user.id != request.params.id) return next(errorHandler(401, 'You can only update your own account!'));
+};

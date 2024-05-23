@@ -6,14 +6,13 @@ import { updateUserStart, updateUserSuccess, updateUserFaliure } from "../redux/
 import { useDispatch } from "react-redux";
 
 export default function Profile() {
-  const { currentUser, error } = useSelector((state) => state.user);
-  const updateStatus = useSelector((state) => state.user.updated)
+  const { currentUser, error, loading } = useSelector((state) => state.user);
   const fileRef = useRef(null);
   const [file, setFile] = useState(undefined);
   const [filePerc, setFilePerc] = useState(0);
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
-  const [updateButton, setUpdateButton] = useState("Update");
+  const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
 
 
@@ -69,6 +68,7 @@ export default function Profile() {
 
       // dispatch success if data.success is not false
       dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
     } 
     catch (error) 
     {
@@ -98,15 +98,16 @@ export default function Profile() {
           <input type="text" placeholder="Username" defaultValue={currentUser.username} onChange={handleChange} id='username' className="border rounded-md p-3 w-11/12"/>
           <input type="email" placeholder="Email" defaultValue={currentUser.email} onChange={handleChange} id='email' className="border rounded-md p-3 w-11/12"/>
           <input type="password" placeholder="Password"  onChange={handleChange} id='password' className="border rounded-md p-3 w-11/12"/>
-          <button className="bg-slate-600 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400 w-11/12 hover:opacity-95 disabled:opacity-80">
-            {updateStatus === true ? "Updated ✓" : "Update"}
+          <button disabled={loading} className="bg-slate-600 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400 w-11/12 hover:opacity-95 disabled:opacity-80">
+            {loading ? "Loading..." : "Update"}
             </button>
         </form>
         <div className="flex justify-between mx-5 mt-4">
         <span className='cursor-pointer text-red-700'>Sign out</span>
         <span className='cursor-pointer text-red-700'>Delete account</span>
         </div>
-      <p className="text-red-700 text-bold mx-auto uppercase text-xl">{error ? error : ""}</p>
+      <p className="text-red-700 text-bold mx-auto">{error ? error : ""}</p>
+      <p className="text-green-700 text-bold mx-auto">{updateSuccess === true? "User details updated successfully!" : ""}</p>
       </div>
     </div>
   )
