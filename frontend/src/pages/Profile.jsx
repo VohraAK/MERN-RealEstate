@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase.js';
-import { updateUserStart, updateUserSuccess, updateUserFaliure } from "../redux/user/userSlice.js";
+import { updateUserStart, updateUserSuccess, updateUserFaliure, deleteUserStart, deleteUserSuccess, deleteUserFaliure } from "../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 
 export default function Profile() {
@@ -48,6 +48,7 @@ export default function Profile() {
 
     try 
     {
+      // dispatch using updateUser reducers
       dispatch(updateUserStart());
 
       // fetch request using currentUser._id (from useSelector)
@@ -77,6 +78,30 @@ export default function Profile() {
     }
   };
 
+const handleDeleteUser = async (e) => {
+  try 
+  {
+    // dispatch using deleteUser reducers
+    dispatch(deleteUserStart());
+
+    const response = await fetch(`/api/user/delete/${currentUser._id}`, { method: "DELETE" });
+    const data = await response.json();
+
+    if (data.success == true)
+    {
+      dispatch(deleteUserFaliure(data.message));
+      return;
+    }
+
+    dispatch(deleteUserSuccess(data));
+  } 
+  
+  catch (error) 
+  {
+    dispatch(deleteUserFaliure(error.message));
+  }
+};
+
   return (
     <div className="p-10">
       <div className='bg-white flex flex-col gap-2 center border border-stone-600 border-opacity-40 shadow-gray-200 shadow-md rounded-md p-5 m-6 w-9/12 md:w-5/12 mx-auto'>
@@ -104,7 +129,7 @@ export default function Profile() {
         </form>
         <div className="flex justify-between mx-5 mt-4">
         <span className='cursor-pointer text-red-700'>Sign out</span>
-        <span className='cursor-pointer text-red-700'>Delete account</span>
+        <span className='cursor-pointer text-red-700' onClick={handleDeleteUser}>Delete account</span>
         </div>
       <p className="text-red-700 text-bold mx-auto">{error ? error : ""}</p>
       <p className="text-green-700 text-bold mx-auto">{updateSuccess === true? "User details updated successfully!" : ""}</p>
