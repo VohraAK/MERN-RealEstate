@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import userRouter from './routes/userRoute.js';
 import authRouter from './routes/authRoute.js';
+import listingRouter from './routes/listingRoute.js'
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -28,8 +29,10 @@ const connectDB = async () => {
 
 connectDB();
 
+// app routers
 app.use('/api/user', userRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/listing', listingRouter);
 
 //  middleware
 app.use((error, request, response, next) => { 

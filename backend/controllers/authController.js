@@ -105,11 +105,11 @@ export const googleLogin = async (request, response, next) => {
     catch (error) { next(error); }
 };
 
-export const emailTest = async (request, response, next) => {
-    const user = await User.findOne({ email: request.body.email });
-    
-    if (!user) { return next(errorHandler(404, "NOT FOUND!")) }
-    
-    response.status(200)
-            .json(user);
+export const signout = async (request, response, next) => {
+    try 
+    {
+        response.clearCookie('access_token');
+        response.status(200).json("User has been signed out...")
+    } 
+    catch (error) { next(error) }
 };
