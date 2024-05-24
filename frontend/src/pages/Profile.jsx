@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { useRef, useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase.js';
 import { updateUserStart, updateUserSuccess, updateUserFaliure, deleteUserStart, deleteUserSuccess, deleteUserFaliure, signOutStart, signOutSuccess, signOutFaliure } from "../redux/user/userSlice.js";
@@ -78,7 +79,7 @@ export default function Profile() {
     }
   };
 
-const handleDeleteUser = async (e) => {
+const handleDeleteUser = async () => {
   try 
   {
     // dispatch using deleteUser reducers
@@ -102,7 +103,7 @@ const handleDeleteUser = async (e) => {
   }
 };
 
-const handleSignOut = async (e) => {
+const handleSignOut = async () => {
   try 
   {
     // dispatch using signOut reducers
@@ -132,7 +133,7 @@ const handleSignOut = async (e) => {
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
           {/* Set up file state s/t image gets reloaded from first entry of e.target.files */}
           <input onChange={(e) => setFile(e.target.files[0])} hidden type="file" accept="image/*" ref={fileRef}/>
-          <img onClick={() => fileRef.current.click()} src={formData.avatar || currentUser.avatar} className="rounded-full self-center object-cover cursor-pointer my-3 h-24 w-24" />
+          <img onClick={() => fileRef.current.click()} src={formData.avatar || currentUser.avatar} className="rounded-full self-center object-cover cursor-pointer my-3 h-24 w-24 hover:opacity-90" />
           <p>
             { fileUploadError ? 
               (<span className="text-red-700">Error in uploading image (image must be less than 2 MB)</span>)
@@ -148,11 +149,14 @@ const handleSignOut = async (e) => {
           <input type="password" placeholder="Password"  onChange={handleChange} id='password' className="border rounded-md p-3 w-11/12"/>
           <button disabled={loading} className="bg-slate-600 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400 w-11/12 hover:opacity-95 disabled:opacity-80">
             {loading ? "Loading..." : "Update"}
-            </button>
+          </button>
+          <Link className='bg-green-700 text-slate-100 p-2 rounded-md shadow-sm shadow-gray-400 w-11/12 hover:opacity-95 disabled:opacity-80 text-center' to={'/create-listing'}>
+            Create New Listing
+          </Link>
         </form>
         <div className="flex justify-between mx-5 mt-4">
-        <span className='cursor-pointer text-red-700' onClick={handleSignOut}>Sign out</span>
-        <span className='cursor-pointer text-red-700' onClick={handleDeleteUser}>Delete account</span>
+        <span className='cursor-pointer text-red-700 hover:opacity-80' onClick={handleSignOut}>Sign out</span>
+        <span className='cursor-pointer text-red-700 hover:opacity-80' onClick={handleDeleteUser}>Delete account</span>
         </div>
       <p className="text-red-700 text-bold mx-auto">{error ? error : ""}</p>
       <p className="text-green-700 text-bold mx-auto">{updateSuccess === true? "User details updated successfully!" : ""}</p>

@@ -41,7 +41,7 @@ export default function SignIn() {
   return (
     <div className='p-10'>
       <div className='bg-white flex flex-col gap-5 center border border-stone-600 border-opacity-40 shadow-gray-200 shadow-md rounded-md p-5 m-6 w-9/12 md:w-5/12 mx-auto h-full'>
-        <h1 className='text-2xl text-center'>Sign In</h1>
+        <h1 className='text-2xl text-center font-semibold'>Sign In</h1>
         <div className='p-6'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center'>
             <input type="text" id='username' onChange={handleChange} placeholder='Username' className='border rounded-md p-3 sm:w-11/12'/>
