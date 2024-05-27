@@ -128,6 +128,7 @@ export default function CreateListing() {
         setImageUploadError(false);
         setUploading(false);
       })
+      // eslint-disable-next-line no-unused-vars
       .catch((error) => { 
         setImageUploadError("Image upload failed! (2MB maximum per image)");
         setUploading(false);
