@@ -16,8 +16,6 @@ export default function Profile() {
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const dispatch = useDispatch();
 
-
-
   useEffect(() => { if (file) { handleFileUpload(file) } }, [file]);
 
   const handleFileUpload = (file) => {   // handleFileUpload takes file as param
