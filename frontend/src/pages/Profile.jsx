@@ -229,7 +229,9 @@ export default function Profile() {
                 <p>{listing.name}</p>
               </Link>
               <div>
-                <button className="text-slate-700 hover:opacity-70 p-2">Edit</button>
+                <Link to={`/edit-listing/${listing._id}`}>
+                  <button className="text-slate-700 hover:opacity-70 p-2">Edit</button>
+                </Link>
                 <button key={listing._id} disabled={deletingListing} onClick={() => handleDeleteListing(listing._id)} className="text-red-700 hover:opacity-70 p-2">
                  Delete
                   </button>

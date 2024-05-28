@@ -1,16 +1,17 @@
 // private page, should be added in PrivateRoute
 // main used instead of div to make it more SEO friendly
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase.js'
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-export default function CreateListing() {
+export default function EditListing() {
     
   const { currentUser } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const params = useParams();
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useState({ 
     imageURLs: [],
@@ -32,6 +33,24 @@ export default function CreateListing() {
   const [submitError, setSubmitError] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  useEffect(() => {
+    // create an async function inside the useEffect hook
+    const fetchListing = async () => {
+        // get listing from param ID
+        const listingID = params.listingID;
+        const response = await fetch(`/api/listing/${listingID}`);
+        const data = await response.json();
+
+        if (data.success === false){ console.log(data.message); return; }
+
+        // set formData state to data
+        setFormData(data);
+        
+    }
+
+    fetchListing();
+  }, [])
+
   const handleChange = (e) => {
     if (e.target.id == 'sell' || e.target.id === 'rent') {setFormData({ ...formData, type: e.target.id })}
     if (e.target.id === 'parking' || e.target.id === 'furnished' || e.target.id === 'offer') {setFormData({ ...formData, [e.target.id]: e.target.checked })}
@@ -51,7 +70,7 @@ export default function CreateListing() {
       setSubmitting(true);
       setSubmitError(false);
 
-      const response = await fetch('/api/listing/create', 
+      const response = await fetch(`/api/listing/update/${params.listingID}`, 
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -69,7 +88,7 @@ export default function CreateListing() {
         setSubmitError(data.message);
       }
 
-      navigate(`/listing/${data._id}`)
+      navigate(`/listing/${data._id}`);
     } 
     catch (error) 
     {
@@ -148,7 +167,7 @@ export default function CreateListing() {
   return (
     <main className="p-10">
         <div className="p-6 bg-white border border-stone-600 border-opacity-40 shadow-gray-200 shadow-sm hover:shadow-md rounded-md mt-4 max-w-4xl mx-auto">
-            <h1 className="text-2xl text-center font-semibold mb-5">Create a Listing</h1>
+            <h1 className="text-2xl text-center font-semibold mb-5">Edit a Listing</h1>
 
             {/* Making two forms */}
             <form onSubmit={handleSubmit} className='flex flex-col sm:flex-row gap-4'>
@@ -230,7 +249,7 @@ export default function CreateListing() {
                      : <p className='text-gray-600'>Uploaded images will appear here:</p>
                      }
                     <button disabled={submitting || uploading} className="bg-green-700 text-slate-100 p-3 mt-4 rounded-md shadow-sm shadow-gray-400 w-full hover:opacity-95 disabled:opacity-80 text-center mx-auto" type="submit">
-                      {submitting ? "Creating..." : "Create Listing"}
+                      {submitting ? "Updating..." : "Update Listing"}
                       </button>
                     
                     {submitError && <p className='text-red-700 text-sm'>{submitError}</p>}
