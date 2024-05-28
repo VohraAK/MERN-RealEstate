@@ -17,6 +17,8 @@ export default function Profile() {
   const [listings, setListings] = useState([]);
   const [showListingsError, setShowListingsError] = useState(false);
   const [loadingListings, setLoadingListings] = useState(false);
+  const [deletingListing, setDeletingListing] = useState(false);
+
   const dispatch = useDispatch();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -152,6 +154,32 @@ export default function Profile() {
     }
   };
 
+  const handleDeleteListing = async (id) => {
+    setDeletingListing(true);
+
+    try 
+    {
+      const response = await fetch(`/api/listing/delete/${id}`, { method: "DELETE" })
+      const data = await response.json();
+
+      if(data.success === false) 
+      {
+        setDeletingListing(false);
+        return;
+      }
+
+      // update listings stae, filtering out the deleted listing
+      setListings((previous) => previous.filter((listing) => listing._id !== id));
+      setDeletingListing(false);
+
+    } 
+    catch (error) 
+    {
+      setDeletingListing(false);
+    }
+
+  };
+
   return (
     <div className="p-10">
       <div className='bg-white flex flex-col gap-2 center border border-stone-600 border-opacity-40 shadow-gray-200 shadow-md rounded-md p-5 m-6 w-10/12 md:w-8/12 lg:w-5/12 mx-auto'>
@@ -202,7 +230,9 @@ export default function Profile() {
               </Link>
               <div>
                 <button className="text-slate-700 hover:opacity-70 p-2">Edit</button>
-                <button className="text-red-700 hover:opacity-70 p-2">Delete</button>
+                <button key={listing._id} disabled={deletingListing} onClick={() => handleDeleteListing(listing._id)} className="text-red-700 hover:opacity-70 p-2">
+                 Delete
+                  </button>
               </div>
             </div>
           )}
