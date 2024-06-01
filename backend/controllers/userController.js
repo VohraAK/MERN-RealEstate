@@ -49,7 +49,7 @@ export const deleteUser = async (request, response, next) => {
     } 
     catch (error) 
     {
-        
+        next(error);
     }
 
 };
@@ -63,4 +63,23 @@ export const getUserListings = async (request, response, next) => {
         response.status(200).json(listings);
     } 
     catch (error) { next(error); }
+};
+
+export const getUser = async (request, response, next) => {
+
+    try 
+    {
+        const user = await User.findById(request.params.id)  ;
+        if (!user) return next(errorHandler(404, "User not found!"));
+
+        // seperate password from user object
+        const { password: pass, ...rest } = user._doc;
+
+        response.status(200).json(rest);
+
+    } 
+    catch (error) 
+    {
+        next(error);
+    }
 };

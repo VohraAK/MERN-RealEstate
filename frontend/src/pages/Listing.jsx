@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore from 'swiper';
 import { Navigation } from 'swiper/modules';
+import Contact from '../components/Contact'
 import 'swiper/css/bundle';
 import { FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare } from 'react-icons/fa';
 
@@ -14,6 +16,8 @@ export default function Listing() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [copied, setCopied] = useState(false);
+    const { currentUser } = useSelector((state) => state.user);
+    const [contact, setContact] = useState(false);
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -54,6 +58,9 @@ export default function Listing() {
         setTimeout(() => {setCopied(false)}, 2000);
     };
 
+    const handleContactClick = () => {
+        setContact(true);
+    };
 
   return (
     <main>
@@ -84,11 +91,11 @@ export default function Listing() {
                             <FaMapMarkerAlt className="text-green-600"/> {listing.address}
                         </p>
                         <div className="flex gap-5 flex-1">
-                            <p className="bg-red-700 max-w-[180px] text-slate-100 text-center p-3 rounded-md">
+                            <p className="bg-red-700 max-w-[180px] text-slate-100 text-center p-3 rounded-md shadow-md">
                                 {listing.type === 'rent' ? 'For Rent' : "For Sale"}
                             </p>
                             {listing.offer && (
-                                <p className=" bg-green-700 text-slate-100 rounded-md text-center p-3 max-w-[180px]">
+                                <p className=" bg-green-700 text-slate-100 rounded-md text-center p-3 max-w-[180px] shadow-md">
                                     Offer: ${+listing.regularPrice - +listing.discountedPrice} Off
                                 </p>
                             )}
@@ -115,6 +122,11 @@ export default function Listing() {
                                 {listing.furnished ? "Furnished" : "Unfurnished"}
                             </li>
                         </ul>
+                        {/* Show contact button if user is not the same as creator and contact is false */}
+                        {currentUser && listing.userRef !== currentUser._id && !contact &&
+                            <button onClick={handleContactClick} className="bg-slate-600 text-slate-100 p-3 mt-3 rounded-md uppercase shadow-sm shadow-gray-400 hover:opacity-95 disabled:opacity-80">Contact Landlord</button>
+                        }
+                        {contact && <Contact listing={listing}/>}
                     </div>
                 </div>
             )
