@@ -15,9 +15,9 @@ export default function Header() {
           </button>
         </h1>
         </Link>
-        <form className='bg-slate-100 rounded-md text-sm flex items-center'>
-            <input className='bg-transparent text-md p-1.5 focus:outline-none w-24 sm:w-60 sm:text-sm' type='text' placeholder='Search...' />
-          <FaSearch className='text-slate-500 mx-1.5'/>
+        <form className='bg-slate-100 rounded-md flex items-center p-2'>
+            <input className='bg-transparent text-lg focus:outline-none w-24 sm:w-60 sm:text-sm' type='text' placeholder='Search...' />
+            <FaSearch className='text-slate-500 mx-1.5'/>
         </form>
         <ul className='flex gap-5 items-center'>
           <Link to='/about'><li className='hover:text-slate-600 hover:cursor-pointer text-center'>About</li></Link>
