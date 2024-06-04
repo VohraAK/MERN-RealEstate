@@ -7,7 +7,6 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
-  console.log(searchTerm);
 
 
   const handleSearchSubmit = (e) => {
