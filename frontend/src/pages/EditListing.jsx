@@ -38,7 +38,7 @@ export default function EditListing() {
     const fetchListing = async () => {
         // get listing from param ID
         const listingID = params.listingID;
-        const response = await fetch(`/api/listing/${listingID}`);
+        const response = await fetch(`/api/listing/get/${listingID}`);
         const data = await response.json();
 
         if (data.success === false){ console.log(data.message); return; }

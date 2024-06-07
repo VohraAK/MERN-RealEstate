@@ -120,5 +120,5 @@ export const getListings = async (request, response, next) => {
         return response.status(200).json(listings);
         
     } 
-    catch (error) { response.status(500).json(error) }
+    catch (error) { next(error); }
 };
