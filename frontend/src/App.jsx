@@ -20,11 +20,11 @@ export default function App() {
       <Route path='/sign-in' element={<SignIn />}/>
       <Route path='/sign-up' element={<SignUp />}/>
       <Route path='/listing/:listingID' element={<Listing />}/>
+      <Route path={'/search'} element={<Search />}/>
       <Route element={<PrivateRoute />}>
         <Route path='/profile' element={<Profile />}/>
         <Route path='/create-listing' element={<CreateListing />}/>
         <Route path='/edit-listing/:listingID' element={<EditListing />}/>
-        <Route path={'/search'} element={<Search />}/>
       </Route>
     </Routes>
     </BrowserRouter>;
