@@ -15,9 +15,8 @@ export default function Search() {
 	});
 	const [loading, setLoading] = useState(false);
 	const [listings, setListings] = useState([]);
+	const [showMore, setShowMore] = useState(false);
 	const navigate = useNavigate();
-
-	console.log(listings);
 
 
 	const handleChange = (e) => {
@@ -49,6 +48,21 @@ export default function Search() {
 		navigate(`/search?${searchQuery}`);
 	};
 
+	const handleShowMore = async () => {
+		const numberListings = listings.length;
+		const startIndex = numberListings;
+		const urlParams = new URLSearchParams(location.search);
+		// set the new start index to param
+		urlParams.set('startIndex', startIndex);
+		const searchQuery = urlParams.toString();
+		
+		const response = await fetch(`/api/listing/get?${searchQuery}`);
+		const data = await response.json();
+		if (data.length < 4) setShowMore(false);
+		setListings([...listings, ...data]);
+
+	};
+
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
 		const searchTermFromURL = urlParams.get('searchTerm');
@@ -77,10 +91,12 @@ export default function Search() {
 		);
 
 		const fetchListing = async () => {
+			setShowMore(false);
 			setLoading(true);
 			const searchQuery = urlParams.toString();
 			const response = await fetch(`/api/listing/get?${searchQuery}`);
 			const data = await response.json();
+			(data.length > 3) ? setShowMore(true) : setShowMore(false);
 			setListings(data);
 			setLoading(false);
 		};
@@ -147,10 +163,13 @@ export default function Search() {
         </div>
         <div className="w-full flex-1">
             <h1 className="text-2xl p-3 mt-4 font-semibold border-b-2 text-slate-600">Search results: </h1>
-			<div className="p-7 flex flex-wrap gap-10">
+			<div className="p-10 flex flex-wrap gap-10">
 				{!loading && listings.length === 0 && (<p className="text-slate-700 text-xl p-3">No listings found...</p>)}
 				{loading && (<p className="text-lg text-slate-700 text-center w-full pt-3">Loading...</p>)}
-				{!loading && listings && listings.map((listing) => <ListingCard key={listing._id} listing={listing}/ >)}
+				{!loading && listings && listings.map((listing) => <ListingCard key={listing._id} listing={listing} />)}
+			</div>
+			<div className="w-full border">
+				{listings.length > 0 && showMore && (<button className="text-lg text-green-700 p-3 hover:opacity-95 disabled:opacity-80 w-full mx-auto" onClick={handleShowMore}>Show More</button>)}
 			</div>
         </div>
     </div>

@@ -61,7 +61,7 @@ export const getListings = async (request, response, next) => {
     try 
     {
         // add a limit from query for showing results, show by default 9 listings
-        const limit = parseInt(request.query.limit) || 9;
+        const limit = parseInt(request.query.limit) || 4;
 
         // add a start index from query for showing results, default 0
         const startIndex = parseInt(request.query.startIndex) || 0;
