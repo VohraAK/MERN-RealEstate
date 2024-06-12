@@ -8,7 +8,6 @@ export default function Header() {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-
   const handleSearchSubmit = (e) => {
     e.preventDefault();
 
@@ -30,9 +29,9 @@ export default function Header() {
 
   return (
     <header className='bg-gray-200 shadow-md'>
-      <div className='flex justify-between items-center mx-auto p-3.5 md:pd-3'>
+      <div className='flex justify-between items-center mx-auto p-3.5 md:p-3'>
         <Link to='/'>
-        <h1 className='font-bold text-sm sm:text-xl md:text-xl flex flex-wrap'>
+        <h1 className='font-bold text-md sm:text-xl md:text-xl flex flex-wrap'>
           <button>
             <span className='text-red-700'>Ghar</span>
             <span className='text-red-500'>Dhoondo</span>
@@ -46,7 +45,6 @@ export default function Header() {
         </form>
         <ul className='flex gap-5 items-center'>
           <Link to='/about'><li className='hover:text-slate-600 hover:cursor-pointer text-center'>About</li></Link>
-
           <Link to='/profile'>
           {/* show avatar if user is signed in */}
           {currentUser ? (<img className='rounded-full h-9 w-9 object-cover' src= {currentUser.avatar} alt='Profile'/>) : (<li className='hover:text-slate-600 hover:cursor-pointer'>Sign in</li>)}
