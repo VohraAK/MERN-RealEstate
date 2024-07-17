@@ -39,7 +39,7 @@ export default function SignUp() {
 
   return (
     <div className='p-10'>
-      <div className='bg-white flex flex-col gap-5 center border border-stone-600 border-opacity-40 shadow-gray-200 shadow-md rounded-md p-5 m-6 w-9/12 md:w-5/12 mx-auto'>
+      <div className='flex flex-col gap-5 center p-5 m-6 w-9/12 md:w-5/12 mx-auto'>
         <h1 className='text-2xl text-center font-semibold'>Create a free account</h1>
         <div className='p-6'>
           <form onSubmit={handleSubmit} className='flex flex-col gap-4 items-center'>
