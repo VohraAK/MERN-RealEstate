@@ -1,12 +1,12 @@
 {
-  "name": "backend",
+  "name": "ghar-dhoondo",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js",
-    "start": "node index.js",
+    "dev": "nodemon backend/index.js",
+    "start": "node backend/index.js",
     "build": "npm i && npm i --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
